@@ -1,0 +1,22 @@
+<html>
+	<head>
+		<script src="../js/ICPCWatch.js"></script>
+	</head>
+	<div>
+		制限時間:
+		<input type="number" size="5" style="width:6%;" id="count_h" name="count_h" value=3 >
+		時間
+		<input type="number" size="5" style="width:6%;" id="count_m" name="count_m" value=0 >
+		分<br>
+		問題数:<input type="number" size="5" style="width:6%;" id="question_count" name="question_count" value=7>問
+		<div name="myClick" id="myClick">残り時間: 0:0:0</div>
+		<input type="button" value="Start" name="myButton" id="myButton" onclick="set()">
+		<div id="compleat"></div>
+	</div>
+	
+	<div>
+		<div id="question_host"　></div>
+	</div>
+	スコア
+	<div id="score">正解数:0 TIME:0/s</div>
+</html>
