@@ -4,6 +4,7 @@ var KEIKA;
 var count = 0;
 var sum = 0;
 var seikai_count = 0;
+var seikai_miss_num = 0;
 function myWatch() {
 	myButton_element = document.getElementById("myButton");
 	if(!myButton_element.disabled) {
@@ -56,6 +57,12 @@ function compleat() {
 	compleatButton.setAttribute("onclick", "compleatButton();");
 	compleatButton.setAttribute("id", "compleatButton");
 	//document.createTextNode("所属サークル"　 + cercle_id_num + ": ");
+	
+	//誤答分20分追加
+	var miss_num = seikai_miss_num * Math.floor(1200000 / 1000);
+	sum += miss_num;
+	var score_element = document.getElementById("score");
+	score_element.innerHTML = "正解数:" + seikai_count + " TIME:" + sum + "/s (内誤答:"+ miss_num +"/s)";
 
 	//ボタンをすべて非選択に
 	for(var i = 0; i < question_count; i++) {
@@ -85,6 +92,7 @@ function compleatButton() {
 	//グローバル変数の初期化
 	sum = 0;
 	seikai_count = 0;
+	seikai_miss_num = 0;
 	
 	var score_element = document.getElementById("score");
 	score_element.innerHTML = "正解数:0 TIME:0/s";
@@ -147,10 +155,9 @@ function submit(element, button, miss) {
 	button.submit_flag = true;
 	button.disabled = true;
 	miss.disabled = true;
-	sum += (sum + Math.floor(KEIKA / 1000));
+	sum = (sum + Math.floor(KEIKA / 1000));
 
-	//誤答分20分追加
-	sum += miss.miss_num * Math.floor(1200000 / 1000);
+	seikai_miss_num += miss.miss_num;
 	//正解数
 	seikai_count++;
 
