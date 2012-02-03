@@ -128,7 +128,7 @@ function set_question() {
 		
 		//ソースコード
 		var h3_src_label = document.createElement("h3");
-		h3_src_label.innerHTML = "Sorce Code";
+		h3_src_label.innerHTML = "Source Code";
 		element.appendChild(h3_src_label);
 		
 		//ソースコードテキストエリア
