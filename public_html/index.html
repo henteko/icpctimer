@@ -2,38 +2,61 @@
 	<head>
 		<script src="js/ICPCTimer.js"></script>
 		<script src="lib/bootstrap/js/bootstrap.min.js"></script>
-		<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css" type="text/css" />
+		<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css" type="text/css" />
+		<link rel="stylesheet" href="lib/bootstrap/css/bootstrap-responsive.css" type="text/css" />
 		<title>ICPCTimer</title>
 	</head>
-	
-   <div class="topbar">
-   	<div class="fill">
-   		<div class="container">
-   			<a href="" class="brand">MySite</a>
-   			<ul class="nav">
-   				<li class="active"><a href="">ホーム</a></li>
-   				<li><a href="">このサイトについて</a></li>
-   				<li><a href="">ヘルプ</a></li>
-   			</ul>
-   		</div>
-   	</div>
-   </div>
-	
-	<div>
-		制限時間:
-		<input type="number" size="5" style="width:6%;" id="count_h" name="count_h" value=3 >
-		時間
-		<input type="number" size="5" style="width:6%;" id="count_m" name="count_m" value=0 >
-		分<br>
-		問題数:<input type="number" size="5" style="width:6%;" id="question_count" name="question_count" value=7>問
-		<div name="myClick" id="myClick">残り時間: 0:0:0</div>
-		<input type="button" value="Start" name="myButton" id="myButton" onclick="set()">
-		<div id="compleat"></div>
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a>
+				<a class="brand" href="#">ICPCTimer</a>
+				<div class="nav-collapse">
+					<ul class="nav">
+						<li class="active">
+							<a href="#">Home</a>
+						</li>
+						<li>
+							<a href="#about">About</a>
+						</li>
+						<li>
+							<a href="#contact">Contact</a>
+						</li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div>
+		</div>
 	</div>
-	
-	<div>
-		<div id="question_host"　></div>
+	<div class="container">
+		<div class="hero-unit">
+			制限時間:
+			<input type="number" size="5" style="width:6%;height:6%;" id="count_h" name="count_h" value=3 >
+			時間
+			<input type="number" size="5" style="width:6%;height:6%;" id="count_m" name="count_m" value=0 >
+			分
+			<br>
+			問題数:
+			<input type="number" size="5" style="width:6%;height:6%;" id="question_count" name="question_count" value=7>
+			問
+			<div name="myClick" id="myClick">
+				残り時間: 0:0:0
+			</div>
+			<input type="button" value="Start" name="myButton" id="myButton" onclick="set()">
+			<div id="question_host"　></div>
+		</div>
+		
+		<div class="row">
+			スコア
+			<div id="score">
+				正解数:0 TIME:0/s
+			</div>
+			<div id="compleat"></div>
+		</div>
+		<hr>
+		<footer>
+			<p>
+				&copy; henteko 2012
+			</p>
+		</footer>
 	</div>
-	スコア
-	<div id="score">正解数:0 TIME:0/s</div>
 </html>
