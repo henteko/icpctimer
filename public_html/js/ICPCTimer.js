@@ -24,9 +24,9 @@ function myWatch() {
 			myButton_element.value = "Start";
 			clearInterval(myInterval);
 			var myClick_element = document.getElementById("myClick");
-			myClick_element.innerHTML = "残り時間: 0:0:0";
+			myClick_element.innerHTML = "<h1>Time Limit: 0:0:0</h1>";
 			compleat();
-			alert("終了です!!");
+			alert("The End!!");
 			return;
 		}
 		H = Math.floor(T / (60 * 60 * 1000));
@@ -35,14 +35,16 @@ function myWatch() {
 		T = T - (M * 60 * 1000);
 		S = Math.floor(T / 1000);
 		var myClick_element = document.getElementById("myClick");
-		myClick_element.innerHTML = "残り時間: " + H + ":" + M + ":" + S;
+		myClick_element.innerHTML = "<h1>Time Limit: " + H + ":" + M + ":" + S + "</h1>";
 	}
 }
 
 function set() {
-	var count_h_element = document.getElementById("count_h");  //時間
-	var count_m_element = document.getElementById("count_m");  //分
-	
+	var count_h_element = document.getElementById("count_h");
+	//時間
+	var count_m_element = document.getElementById("count_m");
+	//分
+
 	count = ((count_h_element.value * 60 * 60) + (count_m_element.value * 60)) * 1000;
 	var question_count_element = document.getElementById("question_count");
 	question_count = question_count_element.value;
@@ -53,16 +55,17 @@ function compleat() {
 	var compleat_element = document.getElementById("compleat");
 	var compleatButton = document.createElement("input");
 	compleatButton.setAttribute("type", "button");
-	compleatButton.setAttribute("value", "初期化");
+	compleatButton.setAttribute("value", "Reset");
 	compleatButton.setAttribute("onclick", "compleatButton();");
 	compleatButton.setAttribute("id", "compleatButton");
+	compleatButton.setAttribute("class", "btn btn-primary btn-large");
 	//document.createTextNode("所属サークル"　 + cercle_id_num + ": ");
-	
+
 	//誤答分20分追加
 	var miss_num = seikai_miss_num * Math.floor(1200000 / 1000);
 	sum += miss_num;
 	var score_element = document.getElementById("score");
-	score_element.innerHTML = "正解数:" + seikai_count + " TIME:" + sum + "/s (内誤答:"+ miss_num +"/s)";
+	score_element.innerHTML = "<h3>Correct:" + seikai_count + " TIME:" + sum + "/s (Miss:" + miss_num + "/s)</h3>";
 
 	//ボタンをすべて非選択に
 	for(var i = 0; i < question_count; i++) {
@@ -87,20 +90,26 @@ function compleatButton() {
 	var question_element = document.getElementById("question");
 	question_host_element.removeChild(question_element);
 
-	//alert("スコア 正解数:" + seikai_count + " TIME:" + sum + "/s");
-
 	//グローバル変数の初期化
 	sum = 0;
 	seikai_count = 0;
 	seikai_miss_num = 0;
-	
+
+	var question_table_host_element = document.getElementById("question_table_host");
+	while(question_table_host_element.firstChild) {
+		question_table_host_element.removeChild(question_table_host_element.firstChild);
+	}
+
 	var score_element = document.getElementById("score");
-	score_element.innerHTML = "正解数:0 TIME:0/s";
+	score_element.innerHTML = "<h3>Correct:0 TIME:0/s</h3>";
 }
 
 function set_question() {
 	//問題のセットアップ
 	var question_host_element = document.getElementById("question_host");
+	question_host_element.innerHTML = "";
+
+	var question_table_host_element = document.getElementById("question_table_host");
 
 	var question_element = document.createElement("div");
 	question_element.setAttribute("id", "question");
@@ -109,11 +118,25 @@ function set_question() {
 	var mondai_array = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "L", "O", "P", "Q", "R", "S", "T", "U"];
 	for(var i = 0; i < question_count; i++) {
 		var element = document.createElement("div");
-		element.setAttribute("id", "question" + i);
+		element.setAttribute("id","question"+i);
+		if(i != 0) element.style.display = 'none';
 
 		//問題:A etc
-		var label = document.createTextNode("問題:" + mondai_array[i]);
-		element.appendChild(label);
+		var h2_label = document.createElement("h2");
+		h2_label.innerHTML = "Q:" + mondai_array[i];
+		element.appendChild(h2_label);
+		
+		//ソースコード
+		var h3_src_label = document.createElement("h3");
+		h3_src_label.innerHTML = "Sorce Code";
+		element.appendChild(h3_src_label);
+		
+		//ソースコードテキストエリア
+		var src_text = document.createElement("textarea");
+		src_text.setAttribute("id","src_text"+i);
+		src_text.setAttribute("style","width:100%;");
+		src_text.setAttribute("rows",10);
+		element.appendChild(src_text);
 
 		//ボタン:提出
 		var submit = document.createElement("input");
@@ -121,8 +144,9 @@ function set_question() {
 		submit.submit_flag = false;
 		submit.setAttribute("id", "question_submit" + i);
 		submit.setAttribute("type", "button");
-		submit.setAttribute("value", "提出");
-		submit.setAttribute("onclick", "submit(" + "question" + i + ",this," + "question_miss" + i + ");");
+		submit.setAttribute("value", "Submit");
+		submit.setAttribute("onclick", "submit(" + "question" + i + ",this," + "question_miss" + i + ","+ "src_text" + i +");");
+		submit.setAttribute("class", "btn btn-success btn-small");
 		element.appendChild(submit);
 
 		//ボタン:誤答
@@ -131,8 +155,9 @@ function set_question() {
 		miss.miss_num = 0;
 		miss.setAttribute("id", "question_miss" + i);
 		miss.setAttribute("type", "button");
-		miss.setAttribute("value", "誤答");
+		miss.setAttribute("value", "Miss");
 		miss.setAttribute("onclick", "miss(" + "question" + i + ",this," + "question_submit" + i + ");");
+		miss.setAttribute("class", "btn btn-danger btn-small");
 		element.appendChild(miss);
 
 		//経過時間記述div
@@ -146,32 +171,61 @@ function set_question() {
 		question_host_element.appendChild(gotou);
 
 		question_element.appendChild(element);
+
+		//問題のリンク表示
+
+		var h2_table_a = document.createElement("a");
+		h2_table_a.setAttribute("href", "#" + i);
+		h2_table_a.setAttribute("id", "question_table"+i);
+		h2_table_a.setAttribute("onclick", "question_change(" + i + ");");
+		h2_table_a.innerHTML = "Q:" + mondai_array[i];
+
+		question_table_host_element.appendChild(h2_table_a);
+
 	}
 
 }
 
-function submit(element, button, miss) {
+function question_change(num) {
+	for(var i = 0; i < question_count; i++) {
+		var element = document.getElementById("question"+i);
+		if (i != num) {
+			//非表示
+			element.style.display = 'none';
+		}else {
+			//表示
+			element.style.display = 'block';
+		}
+	}
+}
+
+function submit(element, button, miss,src_text) {
 	var question_element = document.getElementById(element.id);
 	button.submit_flag = true;
 	button.disabled = true;
 	miss.disabled = true;
 	sum = (sum + Math.floor(KEIKA / 1000));
-
 	seikai_miss_num += miss.miss_num;
 	//正解数
 	seikai_count++;
 
 	var score_element = document.getElementById("score");
-	score_element.innerHTML = "正解数:" + seikai_count + " TIME:" + sum + "/s";
+	score_element.innerHTML = "<h3>Correct:" + seikai_count + " TIME:" + sum + "/s</h3>";
 
-	var label = document.createTextNode("TIME:" + Math.floor(KEIKA / 1000) + "秒");
-	question_element.appendChild(label);
+	var h2_label = document.createElement("h2");
+	h2_label.innerHTML = "TIME:" + Math.floor(KEIKA / 1000) + "/s";
+	question_element.appendChild(h2_label);
+	
+	var src_text = document.getElementById(src_text.id);
+	//読み取り専用に
+	src_text.setAttribute("readonly",true);
+	
 }
 
 function miss(element, button, submit) {
 	var question_element = document.getElementById(element.id);
 	button.miss_num++;
-	
+
 	if(button.miss_num == 3) {
 		button.disabled = true;
 		submit.disabled = true;
@@ -180,7 +234,8 @@ function miss(element, button, submit) {
 		//最初の要素を削除
 		question_element.removeChild(question_element.lastChild);
 	}
-	
-	var label = document.createTextNode("誤答回数:" + button.miss_num);
-	question_element.appendChild(label);
+
+	var h2_label = document.createElement("h2");
+	h2_label.innerHTML = "Miss:" + button.miss_num;
+	question_element.appendChild(h2_label);
 }
