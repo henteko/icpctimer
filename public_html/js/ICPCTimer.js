@@ -137,6 +137,10 @@ function set_question() {
 		src_text.setAttribute("style","width:100%;");
 		src_text.setAttribute("rows",10);
 		element.appendChild(src_text);
+		
+		var button_right = document.createElement("p");
+		button_right.setAttribute("class","pull-right");
+		element.appendChild(button_right);
 
 		//ボタン:提出
 		var submit = document.createElement("input");
@@ -146,8 +150,8 @@ function set_question() {
 		submit.setAttribute("type", "button");
 		submit.setAttribute("value", "Submit");
 		submit.setAttribute("onclick", "submit(" + "question" + i + ",this," + "question_miss" + i + ","+ "src_text" + i +");");
-		submit.setAttribute("class", "btn btn-success btn-small");
-		element.appendChild(submit);
+		submit.setAttribute("class", "btn btn-success btn-large");
+		button_right.appendChild(submit);
 
 		//ボタン:誤答
 		var miss = document.createElement("input");
@@ -157,8 +161,8 @@ function set_question() {
 		miss.setAttribute("type", "button");
 		miss.setAttribute("value", "Miss");
 		miss.setAttribute("onclick", "miss(" + "question" + i + ",this," + "question_submit" + i + ");");
-		miss.setAttribute("class", "btn btn-danger btn-small");
-		element.appendChild(miss);
+		miss.setAttribute("class", "btn btn-danger btn-large");
+		button_right.appendChild(miss);
 
 		//経過時間記述div
 		var keika = document.createElement("div");
