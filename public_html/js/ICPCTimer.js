@@ -134,8 +134,8 @@ function set_question() {
 		//ソースコードテキストエリア
 		var src_text = document.createElement("textarea");
 		src_text.setAttribute("id","src_text"+i);
-		src_text.setAttribute("style","width:100%;");
-		src_text.setAttribute("rows",10);
+		src_text.setAttribute("style","width:100%;height:50%;");
+		// src_text.setAttribute("rows",10);
 		element.appendChild(src_text);
 		
 		var button_right = document.createElement("p");
